@@ -1,0 +1,28 @@
+.chatbox-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 400px;
+    height: 600px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    z-index: 1000;
+  }
+
+  .open-chatbox-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #1890ff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 999;
+  }

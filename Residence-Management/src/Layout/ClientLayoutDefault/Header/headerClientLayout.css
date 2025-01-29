@@ -1,0 +1,79 @@
+.header {
+    position: fixed;
+    display: flex;
+    /* position: fixed; */
+    border-bottom: 1px solid #ddd;
+    margin: 0;
+    height: 95px;
+    width: 100%;
+    padding: 0px;
+    background-color: orange;
+    z-index: 100;
+}
+
+
+.header__logo {
+    background-color: blueviolet;
+    flex: 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    border-right: 2px solid black;
+    transition: all 0.5s;
+    margin: 10px;
+    padding: 10px;
+}
+
+.header__nav {
+    padding: 10px;
+    margin: 10px;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    flex: 5;
+}
+
+.header__nav .header__nav-on{
+    margin: 0;
+    padding: 0;
+}
+.header__nav .header__nav-on .header__nav-search{
+    position: relative;
+    margin: 0;
+    padding: 0;
+    
+}
+
+.header__nav .header__nav-on .header__nav-search .header__nav-search-icon{
+    position: absolute;
+    top:0;
+    right: 0;
+    box-sizing: border-box;
+}
+
+.header__nav .header__nav-bottom{
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    bottom: 10px;
+    
+}
+
+.header__account {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 2;
+    margin: 10px;
+}
+.header__account .header__account-item{
+    margin: 20px;
+    padding: 20px;
+}
+
+.menu{
+    cursor: pointer;
+}
