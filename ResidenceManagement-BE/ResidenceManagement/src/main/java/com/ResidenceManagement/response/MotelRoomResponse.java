@@ -52,4 +52,5 @@ public class MotelRoomResponse {
     private LocalDateTime updated_at;
 
     private String owner;
+
 }

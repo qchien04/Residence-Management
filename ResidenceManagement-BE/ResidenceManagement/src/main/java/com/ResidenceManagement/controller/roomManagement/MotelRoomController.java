@@ -4,12 +4,15 @@ package com.ResidenceManagement.controller.roomManagement;
 
 import com.ResidenceManagement.entity.roomManagement.Amenity;
 import com.ResidenceManagement.entity.roomManagement.MotelRoom;
+import com.ResidenceManagement.mapper.MotelRoomMapper;
 import com.ResidenceManagement.request.CreateMotelRoomRequest;
 import com.ResidenceManagement.response.ApiResponse;
 import com.ResidenceManagement.response.MotelRoomResponse;
+import com.ResidenceManagement.response.PageResponse;
 import com.ResidenceManagement.service.RoomManagement.AmenityService;
 import com.ResidenceManagement.service.RoomManagement.MotelRoomService;
 import com.ResidenceManagement.service.auth.UserService;
+import com.ResidenceManagement.service.imple.MotelRoomRedisService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,8 @@ public class MotelRoomController {
     private MotelRoomService motelRoomService;
     private UserService userService;
     private AmenityService amenityService;
+    private MotelRoomMapper motelRoomMapper;
+    private MotelRoomRedisService motelRoomRedisService;
 
     @PostMapping("/create")
     public ResponseEntity<ApiResponse> createMotelRoomHandle(@RequestBody CreateMotelRoomRequest createMotelRoomRequest) {
@@ -69,43 +74,47 @@ public class MotelRoomController {
         return new ResponseEntity<ApiResponse>(new ApiResponse("Success",true), HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<MotelRoomResponse> getAllMotelRoom(@PathVariable Integer id) {
+
+        MotelRoom a=motelRoomService.findMotelRoomById(id);
+        MotelRoomResponse motelRoom = motelRoomMapper.toFullInforMotelRoomDTO(a);
+        return new ResponseEntity<MotelRoomResponse>(motelRoom, HttpStatus.OK);
+    }
+
     @GetMapping("/allMotelRoom")
     public ResponseEntity<List<MotelRoomResponse>> getAllMotelRoom() {
 
         List<MotelRoom> arr=motelRoomService.AllMotelRoom();
         List<MotelRoomResponse> ans=new ArrayList<>();
         for(MotelRoom i:arr){
-            MotelRoomResponse motelRoom = new MotelRoomResponse();
-
-            motelRoom.setCreated_at(i.getCreated_at());
-            motelRoom.setUpdated_at(i.getUpdated_at());
-            motelRoom.setId(i.getId());
-            motelRoom.setName(i.getName());
-            motelRoom.setType_room(i.getType_room());
-            motelRoom.setPrice_per_month(i.getPrice_per_month());
-            motelRoom.setDeposit(i.getDeposit());
-            motelRoom.setAvailability_status(i.getAvailability_status());
-            motelRoom.setElectricity_rate(i.getElectricity_rate());
-            motelRoom.setAddress(i.getAddress());
-            motelRoom.setWater_rate(i.getWater_rate());
-            motelRoom.setArea(i.getArea());
-            motelRoom.setInhabited(i.getInhabited());
-            motelRoom.setMax_guests(i.getMax_guests());
-            motelRoom.setBed_quantity(i.getBed_quantity());
-            motelRoom.setDescription(i.getDescription());
-            motelRoom.setImage_url(i.getImage_url());
-            motelRoom.setFloor(i.getFloor());
-            motelRoom.setOwner(i.getOwner().getEmail());
-            motelRoom.setImage_url(i.getImage_url());
-            if (i.getAmenities() != null) {
-                for(Amenity j:i.getAmenities()){
-                    motelRoom.getAmenities().add(j.getId());
-                }
-
-            }
+            MotelRoomResponse motelRoom = motelRoomMapper.toFullInforMotelRoomDTO(i);
             ans.add(motelRoom);
         }
         return new ResponseEntity<List<MotelRoomResponse>>(ans, HttpStatus.OK);
+    }
+
+    @GetMapping("/allMotelRoomV2")
+    public ResponseEntity<PageResponse<MotelRoomResponse>>  getAllMotelRoomV2(
+            @RequestParam(value = "page", required = false,defaultValue = "1") int page,
+            @RequestParam(value = "size", required = false,defaultValue = "5") int size
+
+    ) {
+
+        PageResponse<MotelRoomResponse> ans=motelRoomRedisService.getPageMotelRoom(page,size);
+
+        if(ans==null){
+            System.out.println("Not in cache");
+            ans=motelRoomService.getClientPageMotelRoom(page,size);
+            System.out.println("Ready to save");
+            motelRoomRedisService.savePageMotelRoom(ans,page,size);
+            System.out.println("save done");
+        }
+        else{
+            System.out.println("Catch cache");
+        }
+
+        return new ResponseEntity<PageResponse<MotelRoomResponse>>(ans, HttpStatus.OK);
     }
 
     @GetMapping("/myMotelRoom")
@@ -114,47 +123,35 @@ public class MotelRoomController {
         List<MotelRoom> arr=motelRoomService.MyMotelRoom(email);
         List<MotelRoomResponse> ans=new ArrayList<>();
         for(MotelRoom i:arr){
-            MotelRoomResponse motelRoom = new MotelRoomResponse();
+            MotelRoomResponse motelRoom = motelRoomMapper.toFullInforMotelRoomDTO(i);
+            ans.add(motelRoom);
+        }
+        return new ResponseEntity<List<MotelRoomResponse>>(ans, HttpStatus.OK);
+    }
 
-            motelRoom.setCreated_at(i.getCreated_at());
-            motelRoom.setUpdated_at(i.getUpdated_at());
-
-            motelRoom.setId(i.getId());
-            motelRoom.setName(i.getName());
-            motelRoom.setType_room(i.getType_room());
-            motelRoom.setPrice_per_month(i.getPrice_per_month());
-            motelRoom.setDeposit(i.getDeposit());
-            motelRoom.setAvailability_status(i.getAvailability_status());
-            motelRoom.setElectricity_rate(i.getElectricity_rate());
-            motelRoom.setAddress(i.getAddress());
-            motelRoom.setWater_rate(i.getWater_rate());
-            motelRoom.setArea(i.getArea());
-            motelRoom.setInhabited(i.getInhabited());
-            motelRoom.setMax_guests(i.getMax_guests());
-            motelRoom.setBed_quantity(i.getBed_quantity());
-            motelRoom.setDescription(i.getDescription());
-            motelRoom.setImage_url(i.getImage_url());
-            motelRoom.setFloor(i.getFloor());
-            motelRoom.setOwner(i.getOwner().getEmail());
-            motelRoom.setImage_url(i.getImage_url());
-            if (i.getAmenities() != null) {
-                for(Amenity j:i.getAmenities()){
-                    motelRoom.getAmenities().add(j.getId());
-                }
-
-            }
+    @GetMapping("/tenantMotelRoom")
+    public ResponseEntity<List<MotelRoomResponse>> getTenantMotelRoomHandle() {
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        List<MotelRoom> arr=motelRoomService.AllTenantMotelRoom(email);
+        List<MotelRoomResponse> ans=new ArrayList<>();
+        for(MotelRoom i:arr){
+            MotelRoomResponse motelRoom = motelRoomMapper.toFullInforMotelRoomDTO(i);
             ans.add(motelRoom);
         }
         return new ResponseEntity<List<MotelRoomResponse>>(ans, HttpStatus.OK);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<MotelRoom>> SearchMotelRoom(@RequestParam(value = "key", required = false) String key) {
+    public ResponseEntity<List<MotelRoomResponse>> SearchMotelRoom(@RequestParam(value = "key", required = false) String key) {
 
 
         List<MotelRoom> arr=motelRoomService.AllMotelRoomWithKey(key);
-
-        return new ResponseEntity<List<MotelRoom>>(arr, HttpStatus.OK);
+        List<MotelRoomResponse> ans=new ArrayList<>();
+        for(MotelRoom i:arr){
+            MotelRoomResponse motelRoom = motelRoomMapper.toFullInforMotelRoomDTO(i);
+            ans.add(motelRoom);
+        }
+        return new ResponseEntity<List<MotelRoomResponse>>(ans, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{motelRoomId}")

@@ -15,6 +15,8 @@ public interface RoomRentalDetailService {
     List<RoomRentalDetail> findByMotelRoom_Id(Integer id);
     List<RoomRentalDetail> findByOwnerOfMotelRoom(User user);
 
+    List<RoomRentalDetail> findByTenantOfMotelRoom(User user);
+
 
     void deleteRoomRentalDetailById(Integer id);
 }

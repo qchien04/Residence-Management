@@ -5,13 +5,13 @@ import RoomRentalDetailTable from "./RoomRentalDetailTable";
 import { RoomRentalDetailResponse } from "../type"; 
 import { RoomRentalDetailService } from "../../../services/roomManagerService";
 
-function ListRoomRentalDetail() {
+function ListRoomRentalDetailForTenant() {
   // Kiểu dữ liệu của `rooms` là một mảng các đối tượng `Room`
   const [roomRentalDetails, setRoomRentalDetail] = useState<RoomRentalDetailResponse[]>([]);
 
   // Hàm fetch dữ liệu
   const fetchApi = async () => {
-    const response = await RoomRentalDetailService.getMyRoomRentalDetail();
+    const response = await RoomRentalDetailService.getTenantRoomRentalDetail();
     setRoomRentalDetail(response.reverse()); // Cập nhật state với danh sách phòng
   };
 
@@ -35,4 +35,4 @@ function ListRoomRentalDetail() {
   );
 }
 
-export default ListRoomRentalDetail;
+export default ListRoomRentalDetailForTenant;

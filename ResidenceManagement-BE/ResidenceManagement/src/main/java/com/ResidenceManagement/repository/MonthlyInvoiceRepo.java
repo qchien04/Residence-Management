@@ -14,4 +14,7 @@ public interface MonthlyInvoiceRepo extends JpaRepository<MonthlyInvoice,Integer
 
     @Query("SELECT m FROM MonthlyInvoice m WHERE m.roomRentalDetail.motelRoom.owner = :user")
     List<MonthlyInvoice> findByOwner(User user);
+
+    @Query("SELECT m FROM MonthlyInvoice m WHERE m.roomRentalDetail.tenant = :user")
+    List<MonthlyInvoice> findByTenant(User user);
 }

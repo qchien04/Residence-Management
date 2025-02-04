@@ -66,6 +66,30 @@ const MenuSider: React.FC = () => {
         
       ]
     },
+    {
+      key: '3',
+      label: "Phòng đang thuê",
+      icon: <DatabaseOutlined />,
+      children: [
+        {
+          key: '3-2',
+          label: <Link to='/account/customerService/allRoom' style={{ fontSize: '10px' }}>Tất cả phòng</Link>,
+          icon: <HomeTwoTone />,
+        },
+
+        {
+          key: '3-4',
+          label: <Link to='/account/customerService/allRoomRentalDetail' style={{ fontSize: '10px' }}>Tất cả hợp đồng cho thuê</Link>,
+          icon: <HomeTwoTone />,
+        },
+        {
+          key: '3-6',
+          label: <Link to='/account/customerService/allMonthlyInvoice' style={{ fontSize: '10px' }}>Tất cả hoá đơn</Link>,
+          icon: <HomeTwoTone />,
+        },
+        
+      ]
+    },
     // {
     //   key: '3',
     //   label: <a href='https://www.youtube.com/' target="_blank" rel="noopener noreferrer" style={{ fontSize: '10px' }}>Youtube</a>,

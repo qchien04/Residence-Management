@@ -22,4 +22,9 @@ public interface MotelRoomRepo extends JpaRepository<MotelRoom,Integer> {
     @Query("SELECT m FROM MotelRoom m WHERE " +
             "m.owner.email=:email ")
     List<MotelRoom> MyMotelRoom(@Param("email") String email);
+
+    @Query("SELECT m.motelRoom FROM RoomRentalDetail m WHERE " +
+            "m.tenant.email=:email ")
+    List<MotelRoom> TenantMotelRoom(@Param("email") String email);
+
 }

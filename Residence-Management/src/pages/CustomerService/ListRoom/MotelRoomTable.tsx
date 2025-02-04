@@ -1,7 +1,6 @@
 import { Badge, Table, Tag } from "antd";
 import { MotelRoom, RoomListProps } from "../type"; // Giả sử bạn đã định nghĩa kiểu dữ liệu Room
 import DeleteMotelRoom from "./DeleteMotelRoom";
-import EditMotelRoom from "./EditMotelRoom";
 
 
 const MotelRoomTable: React.FC<RoomListProps> = ({ rooms,onReload }) => {
@@ -60,7 +59,6 @@ const MotelRoomTable: React.FC<RoomListProps> = ({ rooms,onReload }) => {
       key: "actions",
       render: (_: unknown, record: MotelRoom) => (
         <>
-          <EditMotelRoom record={record} onReload={onReload} />
           <DeleteMotelRoom record={record} onReload={onReload} />
         </>
       ),

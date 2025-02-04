@@ -1,7 +1,5 @@
 
 
-
-
 export interface Amenity{
     id?:number,
     name:string,
@@ -147,13 +145,4 @@ export interface MonthlyInvoiceOperation {
 export interface MonthlyInvoiceListProps {
     monthlyInvoiceList: MonthlyInvoiceReSponse[]; // Danh sách phòng
     onReload: () => void; // Hàm để reload danh sách phòng
-}
-
-export interface PageResponse<T>{
-    currentPage:number,
-    data:T[],
-    pageSize:number,
-    totalElements:number,
-    totalPages:number,
-
 }

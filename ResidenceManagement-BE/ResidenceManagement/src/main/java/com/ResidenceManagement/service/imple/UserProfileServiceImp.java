@@ -49,7 +49,6 @@ public class UserProfileServiceImp implements UserProfileService {
     @Override
     public UserProfile findByUserId(int userId) throws UserException {
         Optional<UserProfile> userProfile= userProfileRepo.findByUserId(userId);
-        System.out.println("userid"+" "+userId);
         if(userProfile==null){
             throw new UserException("User profile not found");
         }

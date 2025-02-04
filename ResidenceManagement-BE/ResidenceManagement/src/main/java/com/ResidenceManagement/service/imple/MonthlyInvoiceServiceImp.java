@@ -40,6 +40,11 @@ public class MonthlyInvoiceServiceImp implements MonthlyInvoiceService {
     }
 
     @Override
+    public List<MonthlyInvoice> findMonthlyInvoiceByTenant(User user) {
+        return monthlyInvoiceRepo.findByTenant(user);
+    }
+
+    @Override
     public List<MonthlyInvoice> findByRoomRentalDetail_Id(Integer id) {
         return monthlyInvoiceRepo.findByRoomRentalDetail_Id(id);
     }

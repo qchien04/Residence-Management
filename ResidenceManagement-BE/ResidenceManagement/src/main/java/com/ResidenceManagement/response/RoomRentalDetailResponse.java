@@ -1,6 +1,7 @@
 package com.ResidenceManagement.response;
 
 
+import com.ResidenceManagement.entity.roomManagement.RoomRentalDetail;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,4 +31,5 @@ public class RoomRentalDetailResponse {
     private String motelRoom_name;
 
     private String note;
+
 }

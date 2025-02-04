@@ -19,6 +19,10 @@ import Chat from '../pages/chat';
 import ClientLayoutDefault from '../Layout/ClientLayoutDefault';
 import Home from '../pages/home';
 import SearchPage from '../pages/home/SearchPage';
+import ListMotelRoomForTenant from '../pages/CustomerService/ListRoom';
+import ListRoomRentalDetailForTenant from '../pages/CustomerService/ListRoomRentalDetail';
+import ListMonthlyInvoiceForTenant from '../pages/CustomerService/ListMonthlyInvoice';
+import RoomDetail from '../pages/MotelRoomDetail';
 const Signin = lazy(() => import('../pages/auth/SigninPage'));
 
 
@@ -36,7 +40,12 @@ const Router: FC = () => {
         {
           path: '/search',
           element:<SearchPage />,
+        },
+        {
+          path: '/motelRoom/:id',
+          element:<RoomDetail />,
         }
+
       ]
     },
     {
@@ -104,6 +113,26 @@ const Router: FC = () => {
                     index: true,
                     path: 'allMonthlyInvoice',
                     element:<ListMonthlyInvoice/>,
+                  },
+                ]
+              },
+              {
+                path: 'customerService',
+                children:[
+                  {
+                    index: true,
+                    path: 'allRoom',
+                    element:<ListMotelRoomForTenant/>,
+                  },
+                  {
+                    index: true,
+                    path: 'allRoomRentalDetail',
+                    element:<ListRoomRentalDetailForTenant />,
+                  },
+                  {
+                    index: true,
+                    path: 'allMonthlyInvoice',
+                    element:<ListMonthlyInvoiceForTenant/>,
                   },
                 ]
               },

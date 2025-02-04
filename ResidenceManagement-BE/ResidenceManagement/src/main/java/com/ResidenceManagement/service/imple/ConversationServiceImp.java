@@ -25,12 +25,10 @@ public class ConversationServiceImp implements ConversationService {
     @Override
     @Transactional
     public Conversation createConversation(String email_req, String email_recieve) throws ConversationException {
-        System.out.println("Vao day");
         User user1 = this.userService.findByEmail(email_req);
         User user2 = this.userService.findByEmail(email_recieve);
         Conversation isChatExist = conversationRepo.findConversationBy2UserEmail(email_req, email_recieve);
         if (isChatExist != null) {
-            System.out.println("khac null");
             throw new ConversationException("Duplicate");
         }
         Conversation chat = new Conversation();

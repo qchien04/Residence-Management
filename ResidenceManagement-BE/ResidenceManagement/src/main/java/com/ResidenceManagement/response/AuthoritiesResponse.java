@@ -19,4 +19,14 @@ public class AuthoritiesResponse {
     private List<String> authorities;
     private List<String> roles;
 
+    @Override
+    public String toString() {
+        return "AuthoritiesResponse{" +
+                "email='" + email + '\'' +
+                ", avt='" + avt + '\'' +
+                ", name='" + name + '\'' +
+                ", authorities=" + authorities +
+                ", roles=" + roles +
+                '}';
+    }
 }

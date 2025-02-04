@@ -27,7 +27,6 @@ public class TokenProvider {
         try {
             jwt = jwt.substring(7);
             Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
-            System.out.println("clams ne nao"+claims);
             return String.valueOf(claims.get("email"));
         } catch (JwtException e) {
             throw new IllegalStateException("Invalid token", e);

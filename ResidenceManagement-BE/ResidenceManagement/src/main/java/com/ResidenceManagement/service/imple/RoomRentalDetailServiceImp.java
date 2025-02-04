@@ -56,6 +56,11 @@ public class RoomRentalDetailServiceImp implements RoomRentalDetailService {
     }
 
     @Override
+    public List<RoomRentalDetail> findByTenantOfMotelRoom(User user) {
+        return roomRentalDetailRepo.findByTenantOfMotelRoom(user);
+    }
+
+    @Override
     @Transactional
     public void deleteRoomRentalDetailById(Integer id) {
         roomRentalDetailRepo.deleteById(id);

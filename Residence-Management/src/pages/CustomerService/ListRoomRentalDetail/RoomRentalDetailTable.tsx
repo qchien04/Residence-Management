@@ -2,7 +2,6 @@ import { Badge, Table, Tag } from "antd";
 import { RoomentalDetailListProps, RoomRentalDetailResponse } from "../type"; 
 import  DeleteRoomRentalDetail from "./DeleteRoomRentalDetail";
 import dayjs from "dayjs";
-import EditRoomRentalDetail from "./EditRoomRentalDetail";
 
 const RoomRentalDetailTable: React.FC<RoomentalDetailListProps> = ({ roomRentalDetailList,onReload }) => {
   const columns = [
@@ -68,7 +67,6 @@ const RoomRentalDetailTable: React.FC<RoomentalDetailListProps> = ({ roomRentalD
       key: "actions",
       render: (_: unknown, record: RoomRentalDetailResponse) => (
         <>
-          <EditRoomRentalDetail record={record} onReload={onReload}></EditRoomRentalDetail>
           <DeleteRoomRentalDetail record={record} onReload={onReload} />
         </>
       ),

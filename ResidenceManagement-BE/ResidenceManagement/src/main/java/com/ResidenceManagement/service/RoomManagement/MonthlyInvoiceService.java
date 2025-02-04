@@ -14,6 +14,8 @@ public interface MonthlyInvoiceService {
 
     List<MonthlyInvoice> findMonthlyInvoiceByOwner(User user);
 
+    List<MonthlyInvoice> findMonthlyInvoiceByTenant(User user);
+
     List<MonthlyInvoice> findByRoomRentalDetail_Id(Integer id);
 
     void deleteMonthlyInvoiceById(Integer id);

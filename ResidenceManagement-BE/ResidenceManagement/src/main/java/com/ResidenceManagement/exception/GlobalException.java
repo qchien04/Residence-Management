@@ -25,7 +25,7 @@ public class GlobalException {
     @ExceptionHandler(ConversationException.class)
     public ResponseEntity<ApiResponse> ConversationExceptionHandler(ConversationException e, WebRequest req){
 
-        return new ResponseEntity<ApiResponse>(new ApiResponse("Conversation error",false), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<ApiResponse>(new ApiResponse("Conversation error",false), HttpStatus.OK);
     }
 
 

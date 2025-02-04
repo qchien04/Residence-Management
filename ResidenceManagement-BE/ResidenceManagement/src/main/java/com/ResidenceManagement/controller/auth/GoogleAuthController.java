@@ -41,15 +41,12 @@ public class GoogleAuthController{
     @PostMapping("/user")
     public ResponseEntity<?> loginWithGoogle(@RequestBody Map<String, String> request) {
         String accessToken = request.get("accessToken");
-        System.out.println("Call"+accessToken);
         // Gọi Google API để xác thực Access Token
         String tokenInfoUrl = "https://www.googleapis.com/oauth2/v3/userinfo?" + accessToken.substring(1);
 
         RestTemplate restTemplate = new RestTemplate();
         try {
             Map<String, Object> tokenInfo = restTemplate.getForObject(tokenInfoUrl, Map.class);
-            System.out.println(tokenInfo);
-            System.out.println("Bat dau kiem tra token");
             if (tokenInfo != null && tokenInfo.containsKey("email")) {
                 // Xử lý thông tin người dùng
                 String email = (String) tokenInfo.get("email");
@@ -62,7 +59,6 @@ public class GoogleAuthController{
 
                 //System.out.println(find_user);
                 if(find_user==null){
-                    System.out.println("bang null la ro");
                     User user=new User(email,email,"123");
                     UserProfile userProfile=new UserProfile();
                     userProfile.setName(name);
@@ -70,7 +66,6 @@ public class GoogleAuthController{
                     userProfile.setUser(user);
                     userProfileService.save(userProfile);
 
-                    System.out.println("come in");
                     List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
                     org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(email, "123", authorities);
                     Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
@@ -82,13 +77,10 @@ public class GoogleAuthController{
 
                 }
                 else{
-                    System.out.println("da co trong db");
                     Authentication authentication=authenticate(email);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                    System.out.println("nenen"+" "+authentication.getName()+" "+authentication.getAuthorities());
                     String jwt=tokenProvider.genarateToken(authentication);
                     AuthRespone res=new AuthRespone(jwt,true);
-                    System.out.println(res);
                     return new ResponseEntity<AuthRespone>(res, HttpStatus.OK);
                 }
 

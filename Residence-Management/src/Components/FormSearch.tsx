@@ -137,6 +137,7 @@ const FormSearch = () => {
         fontSize: "18px",
         fontWeight: "bold",
         color: "#1890ff",
+        
       }}
       onClick={() => setIsExtend(!isextend)}
     >

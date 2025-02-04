@@ -36,3 +36,13 @@ export type normalizeAuthType={
     type:string,
     payload:AuthState,
   }
+export type ChatBoxState={
+  isOpen:boolean,
+}
+
+
+
+export enum ChatBoxActionType {
+  CLOSE = 'CLOSE',
+  OPEN = 'OPEN',
+}

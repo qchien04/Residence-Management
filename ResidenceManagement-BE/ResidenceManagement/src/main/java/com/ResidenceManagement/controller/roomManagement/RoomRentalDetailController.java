@@ -5,6 +5,7 @@ package com.ResidenceManagement.controller.roomManagement;
 import com.ResidenceManagement.entity.auth.User;
 import com.ResidenceManagement.entity.roomManagement.MotelRoom;
 import com.ResidenceManagement.entity.roomManagement.RoomRentalDetail;
+import com.ResidenceManagement.mapper.RoomRentalDetailMapper;
 import com.ResidenceManagement.request.CreateRoomRentalDetailsRequest;
 import com.ResidenceManagement.request.UpdateRoomRentalDetailRequest;
 import com.ResidenceManagement.response.ApiResponse;
@@ -29,6 +30,7 @@ public class RoomRentalDetailController {
     private RoomRentalDetailService roomRentalDetailService;
     private MotelRoomService motelRoomService;
     private UserService userService;
+    private RoomRentalDetailMapper roomRentalDetailMapper;
 
     @PostMapping("/create")
     public ResponseEntity<ApiResponse> createAmenity(@RequestBody CreateRoomRentalDetailsRequest createRoomRentalDetailsRequest) {
@@ -54,6 +56,8 @@ public class RoomRentalDetailController {
         return new ResponseEntity<ApiResponse>(new ApiResponse("Success",true), HttpStatus.CREATED);
     }
 
+
+
     @GetMapping("/allRoomRentalDetail")
     public ResponseEntity<List<RoomRentalDetailResponse>> getAllRoomRentalDetails() {
 
@@ -63,16 +67,7 @@ public class RoomRentalDetailController {
         List<RoomRentalDetailResponse> res=new ArrayList<>();
 
         for(RoomRentalDetail i:arr){
-            RoomRentalDetailResponse topush=new RoomRentalDetailResponse();
-            topush.setExpire(i.getExpire());
-            topush.setId(i.getId());
-            topush.setCreate_time(i.getCreate_time());
-            topush.setPerson_quantity(i.getPerson_quantity());
-            topush.setMotelRoom_id(i.getMotelRoom().getId());
-            topush.setMotelRoom_name(i.getMotelRoom().getName());
-            topush.setRental_start_time(i.getRental_start_time());
-            topush.setTenant_email(i.getTenant().getEmail());
-            topush.setNote(i.getNote());
+            RoomRentalDetailResponse topush=roomRentalDetailMapper.toRoomRentalDetailDTO(i);
             res.add(topush);
         }
 
@@ -90,16 +85,25 @@ public class RoomRentalDetailController {
         List<RoomRentalDetailResponse> res=new ArrayList<>();
 
         for(RoomRentalDetail i:arr){
-            RoomRentalDetailResponse topush=new RoomRentalDetailResponse();
-            topush.setExpire(i.getExpire());
-            topush.setId(i.getId());
-            topush.setCreate_time(i.getCreate_time());
-            topush.setPerson_quantity(i.getPerson_quantity());
-            topush.setMotelRoom_id(i.getMotelRoom().getId());
-            topush.setMotelRoom_name(i.getMotelRoom().getName());
-            topush.setRental_start_time(i.getRental_start_time());
-            topush.setTenant_email(i.getTenant().getEmail());
-            topush.setNote(i.getNote());
+            RoomRentalDetailResponse topush=roomRentalDetailMapper.toRoomRentalDetailDTO(i);
+            res.add(topush);
+        }
+
+        return new ResponseEntity<List<RoomRentalDetailResponse>>(res, HttpStatus.OK);
+    }
+
+    @GetMapping("/tenantRoomRentalDetails")
+    public ResponseEntity<List<RoomRentalDetailResponse>> getTenantRoomRentalDetails() {
+
+        String email= SecurityContextHolder.getContext().getAuthentication().getName();
+        User user=userService.findByEmail(email);
+
+        List<RoomRentalDetail> arr= roomRentalDetailService.findByTenantOfMotelRoom(user);
+
+        List<RoomRentalDetailResponse> res=new ArrayList<>();
+
+        for(RoomRentalDetail i:arr){
+            RoomRentalDetailResponse topush=roomRentalDetailMapper.toRoomRentalDetailDTO(i);
             res.add(topush);
         }
 

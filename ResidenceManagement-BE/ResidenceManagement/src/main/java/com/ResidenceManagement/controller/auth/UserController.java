@@ -53,6 +53,7 @@ public class UserController {
                 authorities.add(permission.getPermissionName());
             }
         }
+
         AuthoritiesResponse authoritiesResponse=new AuthoritiesResponse(user.getEmail(), userProfile.getAvt(),userProfile.getName(),authorities,roles);
         return new ResponseEntity<AuthoritiesResponse>(authoritiesResponse, HttpStatus.OK);
     }

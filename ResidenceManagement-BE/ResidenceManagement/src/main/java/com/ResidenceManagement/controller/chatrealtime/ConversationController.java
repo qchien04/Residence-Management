@@ -36,7 +36,6 @@ public class ConversationController {
     @GetMapping("/allConversation")
     public ResponseEntity<List<Conversation>> findAllConversationByUserEmailHandler(@RequestHeader("Authorization") String jwt)
             throws UserException {
-        System.out.println("lay room");
 
         String email=SecurityContextHolder.getContext().getAuthentication().getName();
         List<Conversation> chats = conversationService.findAllConversationByUserEmail(email);

@@ -19,4 +19,7 @@ public interface RoomRentalDetailRepo extends JpaRepository<RoomRentalDetail,Int
 
     @Query("SELECT rd FROM RoomRentalDetail rd WHERE rd.motelRoom.owner = :user")
     List<RoomRentalDetail> findByOwnerOfMotelRoom(User user);
+
+    @Query("SELECT rd FROM RoomRentalDetail rd WHERE rd.tenant = :user")
+    List<RoomRentalDetail> findByTenantOfMotelRoom(User user);
 }

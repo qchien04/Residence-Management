@@ -8,8 +8,11 @@ const chatService = {
   createConversation: async (req:CreateConversationRequest): Promise<APIResponse|ConversationResponse> => {
     try {
       const {data} = await axiosClient.post('/conversation/create',req);
-      if(data.status)
-        throw new Error("Can not create conversation");
+      if(data.status){
+        // throw new Error("Can not create conversation");
+        console.log("Can not create conversation");
+        return data;
+      }
       else{
         return data;
       }

@@ -29,6 +29,8 @@ const GoogleLogin:React.FC=() => {
 
           const user:User=await authService.getbasicInfo();
           console.log(user);
+
+
           const data:normalizeAuthType=signIn({user});
           dispatch(data);
         }

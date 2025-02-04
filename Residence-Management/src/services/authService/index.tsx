@@ -40,8 +40,10 @@ const authService = {
   getbasicInfo: async (): Promise<AuthoritiesResponse> => {
     try {
       const {data,status} = await axiosClient.get('/api/users/basicInfo');
-      if(status===200)
+      if(status===200){
         return data;
+      }
+        
       else{
         throw new Error("Can not get user information");
       }

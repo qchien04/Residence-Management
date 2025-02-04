@@ -4,44 +4,92 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Build Output
+out/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
 # Logs
 logs/
 *.log
+hs_err_pid*.log
 
-# STS (Spring Tool Suite)
+# Dependency Caches
+.mvn/
+*.jar
+*.war
+*.ear
+
+# Spring Boot Specific
+*.env
+*.properties
+*.yml
+*.yaml
+secrets.env
+
+# IDE / Editors
+## STS (Spring Tool Suite)
 .apt_generated
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
 .sts4-cache
 
-# IntelliJ IDEA
-.idea
+## IntelliJ IDEA
+.idea/
 *.iws
 *.iml
 *.ipr
 
-# NetBeans
+## NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-# VS Code
+## Eclipse
+*.metadata
+*.classpath
+*.project
+/.settings/
+
+## VS Code
 .vscode/
 
-# OS Specific
+# OS Specific Files
 .DS_Store
 Thumbs.db
 *.bak
 *.tmp
 
 # Sensitive Config Files
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*.local
 application.properties
 application.yml
+application.yaml
+
+
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*.local
+
+docker-compose.yml
+docker-compose.override.yml
+Dockerfile
+.dockerignore
+**/docker-data/
+**/docker-volumes/
+**/docker-logs/
+

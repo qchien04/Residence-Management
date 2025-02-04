@@ -3,9 +3,10 @@ package com.ResidenceManagement.controller.roomManagement;
 
 import com.ResidenceManagement.entity.auth.User;
 import com.ResidenceManagement.entity.roomManagement.MonthlyInvoice;
+import com.ResidenceManagement.mapper.MonthlyInvoiceMapper;
 import com.ResidenceManagement.request.CreatMonthlyInvoiceRequest;
 import com.ResidenceManagement.response.ApiResponse;
-import com.ResidenceManagement.response.MonthlyInvoidResponse;
+import com.ResidenceManagement.response.MonthlyInvoiceResponse;
 import com.ResidenceManagement.service.RoomManagement.MonthlyInvoiceService;
 import com.ResidenceManagement.service.RoomManagement.MotelRoomService;
 import com.ResidenceManagement.service.RoomManagement.RoomRentalDetailService;
@@ -27,6 +28,7 @@ public class MonthlyInvoiceController {
     private MotelRoomService motelRoomService;
     private UserService userService;
     private MonthlyInvoiceService monthlyInvoiceService;
+    private MonthlyInvoiceMapper monthlyInvoiceMapper;
 
     @PostMapping("/create")
     public ResponseEntity<ApiResponse> createAmenity(@RequestBody CreatMonthlyInvoiceRequest creatMonthlyInvoiceRequest) {
@@ -53,66 +55,57 @@ public class MonthlyInvoiceController {
         return new ResponseEntity<ApiResponse>(new ApiResponse("Success",true), HttpStatus.CREATED);
     }
 
-    @GetMapping("/allmonthlyInvoice")
-    public ResponseEntity<List<MonthlyInvoidResponse>> getAllAmenity() {
+    @GetMapping("/allMonthlyInvoice")
+    public ResponseEntity<List<MonthlyInvoiceResponse>> getAllAmenity() {
 
 
         List<MonthlyInvoice> arr=monthlyInvoiceService.findAllMonthlyInvoice();
 
-        List<MonthlyInvoidResponse> res=new ArrayList<>();
+        List<MonthlyInvoiceResponse> res=new ArrayList<>();
 
         for(MonthlyInvoice i:arr){
-            MonthlyInvoidResponse invoidResponse=new MonthlyInvoidResponse();
-            invoidResponse.setId((i.getId()));
-            invoidResponse.setPaid(i.getPaid());
-            invoidResponse.setPerson_quantity(i.getPerson_quantity());
-            invoidResponse.setNew_electric_number(i.getNew_electric_number());
-            invoidResponse.setLast_electric_number(i.getLast_electric_number());
-            invoidResponse.setNew_water_number(i.getNew_water_number());
-            invoidResponse.setLast_water_number(i.getLast_water_number());
-            invoidResponse.setPayment_month(i.getPayment_month());
-            invoidResponse.setSurcharge(i.getSurcharge());
-            invoidResponse.setNote(i.getNote());
-            invoidResponse.setMotelRoom_name(i.getRoomRentalDetail().getMotelRoom().getName());
-            invoidResponse.setMotelRoom_id(i.getRoomRentalDetail().getMotelRoom().getId());
-            invoidResponse.setTenant_name(i.getRoomRentalDetail().getTenant().getUserProfile().getName());
-            invoidResponse.setRoomRentalDetail_id(i.getRoomRentalDetail().getId());
-            res.add(invoidResponse);
+            MonthlyInvoiceResponse monthlyInvoiceResponse=monthlyInvoiceMapper.toMonthlyInvoiceDTO(i);
+
+            res.add(monthlyInvoiceResponse);
         }
 
-        return new ResponseEntity<List<MonthlyInvoidResponse>>(res, HttpStatus.OK);
+        return new ResponseEntity<List<MonthlyInvoiceResponse>>(res, HttpStatus.OK);
     }
 
 
     @GetMapping("/myMonthlyInvoice")
-    public ResponseEntity<List<MonthlyInvoidResponse>> getMyMonthlyInvoice() {
+    public ResponseEntity<List<MonthlyInvoiceResponse>> getMyMonthlyInvoice() {
 
         String email= SecurityContextHolder.getContext().getAuthentication().getName();
         User user=userService.findByEmail(email);
         List<MonthlyInvoice> arr=monthlyInvoiceService.findMonthlyInvoiceByOwner(user);
 
-        List<MonthlyInvoidResponse> res=new ArrayList<>();
+        List<MonthlyInvoiceResponse> res=new ArrayList<>();
 
         for(MonthlyInvoice i:arr){
-            MonthlyInvoidResponse invoidResponse=new MonthlyInvoidResponse();
-            invoidResponse.setId((i.getId()));
-            invoidResponse.setPaid(i.getPaid());
-            invoidResponse.setPerson_quantity(i.getPerson_quantity());
-            invoidResponse.setNew_electric_number(i.getNew_electric_number());
-            invoidResponse.setLast_electric_number(i.getLast_electric_number());
-            invoidResponse.setNew_water_number(i.getNew_water_number());
-            invoidResponse.setLast_water_number(i.getLast_water_number());
-            invoidResponse.setPayment_month(i.getPayment_month());
-            invoidResponse.setSurcharge(i.getSurcharge());
-            invoidResponse.setNote(i.getNote());
-            invoidResponse.setMotelRoom_name(i.getRoomRentalDetail().getMotelRoom().getName());
-            invoidResponse.setMotelRoom_id(i.getRoomRentalDetail().getMotelRoom().getId());
-            invoidResponse.setTenant_name(i.getRoomRentalDetail().getTenant().getUserProfile().getName());
-            invoidResponse.setRoomRentalDetail_id(i.getRoomRentalDetail().getId());
-            res.add(invoidResponse);
+            MonthlyInvoiceResponse invoicedResponse=monthlyInvoiceMapper.toMonthlyInvoiceDTO(i);
+            res.add(invoicedResponse);
         }
 
-        return new ResponseEntity<List<MonthlyInvoidResponse>>(res, HttpStatus.OK);
+        return new ResponseEntity<List<MonthlyInvoiceResponse>>(res, HttpStatus.OK);
+    }
+
+    @GetMapping("/tenantMonthlyInvoice")
+    public ResponseEntity<List<MonthlyInvoiceResponse>> getTenantMonthlyInvoice() {
+
+        String email= SecurityContextHolder.getContext().getAuthentication().getName();
+        User user=userService.findByEmail(email);
+        List<MonthlyInvoice> arr=monthlyInvoiceService.findMonthlyInvoiceByTenant(user);
+
+        List<MonthlyInvoiceResponse> res=new ArrayList<>();
+
+        for(MonthlyInvoice i:arr){
+            MonthlyInvoiceResponse monthlyInvoiceResponse=monthlyInvoiceMapper.toMonthlyInvoiceDTO(i);
+
+            res.add(monthlyInvoiceResponse);
+        }
+
+        return new ResponseEntity<List<MonthlyInvoiceResponse>>(res, HttpStatus.OK);
     }
 
 }

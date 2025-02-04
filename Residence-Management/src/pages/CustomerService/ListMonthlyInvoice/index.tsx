@@ -5,12 +5,12 @@ import { MonthlyInvoiceReSponse } from "../type";
 import { MonthlyInvoiceService } from "../../../services/roomManagerService";
 import MonthlyInvoiceTable from "./MonthlyInvoiceTable";
 
-function ListMonthlyInvoice() {
+function ListMonthlyInvoiceForTenant() {
   const [monthlyInvoice, setMonthlyInvoice] = useState<MonthlyInvoiceReSponse[]>([]);
 
   // Hàm fetch dữ liệu
   const fetchApi = async () => {
-    const response = await MonthlyInvoiceService.getMyMonthlyInvoice();
+    const response = await MonthlyInvoiceService.getTenantMonthlyInvoice();
     console.log(response)
     setMonthlyInvoice(response.reverse());
   };
@@ -35,4 +35,4 @@ function ListMonthlyInvoice() {
   );
 }
 
-export default ListMonthlyInvoice;
+export default ListMonthlyInvoiceForTenant;

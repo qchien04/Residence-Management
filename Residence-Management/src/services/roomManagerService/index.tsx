@@ -1,5 +1,5 @@
 import axiosClient from '../../config/axiosconfig';
-import { Amenity, CreateRoomRentalDetailRequest, CreatMonthlyInvoiceRequest, MonthlyInvoiceReSponse, MotelRoom, RoomRentalDetailResponse } from '../../pages/RoomManager/type';
+import { Amenity, CreateRoomRentalDetailRequest, CreatMonthlyInvoiceRequest, MonthlyInvoiceReSponse, MotelRoom, PageResponse, RoomRentalDetailResponse } from '../../pages/RoomManager/type';
 
 
 export interface APIResponse{
@@ -10,7 +10,17 @@ export interface APIResponse{
 export const MonthlyInvoiceService = {
   getAllMonthlyInvoice: async (): Promise<MonthlyInvoiceReSponse[]> => {
     try {
-      const {data} = await axiosClient.get('/monthlyInvoice/allmonthlyInvoice');
+      const {data} = await axiosClient.get('/monthlyInvoice/allMonthlyInvoice');
+        return data;
+    } catch (error) {
+      console.error('Error fetching all monthlyInvoice:', error);
+      throw error; 
+    }
+  },
+
+  getTenantMonthlyInvoice: async (): Promise<MonthlyInvoiceReSponse[]> => {
+    try {
+      const {data} = await axiosClient.get('/monthlyInvoice/tenantMonthlyInvoice');
         return data;
     } catch (error) {
       console.error('Error fetching all monthlyInvoice:', error);
@@ -73,6 +83,17 @@ export const RoomRentalDetailService = {
     }
   },
 
+  getTenantRoomRentalDetail: async (): Promise<RoomRentalDetailResponse[]> => {
+    try {
+      const {data} = await axiosClient.get('/roomRentalDetail/tenantRoomRentalDetails');
+        return data;
+    } catch (error) {
+      console.error('Error fetching all RoomRentalDetails:', error);
+      throw error; 
+    }
+  },
+  
+
   getMyRoomRentalDetail: async (): Promise<RoomRentalDetailResponse[]> => {
     try {
       const {data} = await axiosClient.get('/roomRentalDetail/myRoomRentalDetails');
@@ -121,9 +142,31 @@ export const RoomRentalDetailService = {
 
 
 export const MotelRoomService = {
+  getMotelRoom: async (id:string|undefined): Promise<MotelRoom> => {
+    try {
+      const {data} = await axiosClient.get(`/motelRoom/${id}`);
+        return data;
+
+    } catch (error) {
+      console.error('Error fetching all MotelRoom:', error);
+      throw error; 
+    }
+  },
+
   getMyMotelRoom: async (): Promise<MotelRoom[]> => {
     try {
       const {data} = await axiosClient.get('/motelRoom/myMotelRoom');
+        return data;
+
+    } catch (error) {
+      console.error('Error fetching all MotelRoom:', error);
+      throw error; 
+    }
+  },
+
+  getTenantMotelRoom: async (): Promise<MotelRoom[]> => {
+    try {
+      const {data} = await axiosClient.get('/motelRoom/tenantMotelRoom');
         return data;
 
     } catch (error) {
@@ -139,6 +182,17 @@ export const MotelRoomService = {
 
       } catch (error) {
         console.error('Error fetching all MotelRoom:', error);
+        throw error; 
+      }
+    },
+    getPageMotelRoom: async (page:number ): Promise<PageResponse<MotelRoom>> => {
+      try {
+        const {data} = await axiosClient.get(`/motelRoom/allMotelRoomV2?page=${page}`);
+        console.log(data)
+          return data;
+
+      } catch (error) {
+        console.error('Error fetching page MotelRoom:', error);
         throw error; 
       }
     },

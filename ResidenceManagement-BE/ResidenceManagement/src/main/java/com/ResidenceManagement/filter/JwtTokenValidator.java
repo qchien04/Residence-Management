@@ -22,18 +22,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class JwtTokenValidator extends OncePerRequestFilter {
-    private static final List<String> EXCLUDED_PATHS = Arrays.asList("/motelRoom/allMotelRoom");
+    //private static final List<String> EXCLUDED_PATHS = Arrays.asList("/motelRoom/allMotelRoom","/redis/set","/redis/get","/redis/delete");
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String path = request.getRequestURI();
-        // Nếu URL nằm trong danh sách loại trừ, bỏ qua filter
-        if (EXCLUDED_PATHS.contains(path)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
 
         String jwt=request.getHeader("Authorization");
-        if(jwt!=null){
+        String path = request.getRequestURI();
+        if(jwt!=null && jwt.startsWith("Bearer ")){
             try {
                 //bearer token
                 jwt=jwt.substring(7);
